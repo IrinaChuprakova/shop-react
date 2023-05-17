@@ -15,8 +15,8 @@ function Cart({ cartData, onClickCloseCart,onDeletItemCart }) {
         <ul className="cart__list ul-clear">
         {
           cartData.map((cartItem) => (
-            <li className="cart__list-item">
-            <img className="cart__img" src={cartItem.img} alt="" />
+            <li className="cart__list-item" key={cartItem.id}>
+            <img className="cart__img" src={cartItem.img} alt="Изображенмк сумка" />
             <div>
               <p className="cart__description">{cartItem.name}</p>
               <span className="cart__price">{cartItem.price} руб</span>

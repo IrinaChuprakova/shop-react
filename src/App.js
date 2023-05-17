@@ -37,7 +37,6 @@ function App() {
         body: JSON.stringify(card)
       })
         setCartCata([...cartData,card]) 
-        console.log(card)
     }
   }
 

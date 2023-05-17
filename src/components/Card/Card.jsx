@@ -20,7 +20,7 @@ function Card({ img, name, price, onClickAddCart, onClickAddFavorite, fav = fals
       <button
         className={isFavorite ? "card__favorite card__favorite_active" : "card__favorite card__favorite_inactive"}
         onClick={handleClickAddFavorite}></button>
-      <img className="card__img" src={img} alt="" />
+      <img className="card__img" src={img} alt="Изображение сумки" />
       <p className="card__name">{name}</p>
       <div className="card__box">
         <div className="card__container">
