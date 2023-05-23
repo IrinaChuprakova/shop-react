@@ -29,7 +29,7 @@
 }
 
 .card__favorite_inactive {
-  background-image: url(../../images/favorite.png);
+  background-image: url(../../images/favorite-inactive.svg);
 }
 
 .card__favorite_active {

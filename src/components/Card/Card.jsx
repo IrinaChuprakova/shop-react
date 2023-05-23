@@ -1,12 +1,12 @@
 import React from 'react';
 import './Card.css';
+import {AppContext} from '../../App'
 
-function Card({ img, name, price, onClickAddCart, onClickAddFavorite, fav = false, added = false }) {
-  const [isAdded, setIsAdded] = React.useState(added);
+function Card({ id,img, name, price, onClickAddCart, onClickAddFavorite, fav = false}) {
+  const {itemIsAdedd} = React.useContext(AppContext);
   const [isFavorite, setIsFavorite] = React.useState(fav);
 
   const handleClickAddCart = () => {
-    setIsAdded(!isAdded)
     onClickAddCart()
   }
 
@@ -14,7 +14,7 @@ function Card({ img, name, price, onClickAddCart, onClickAddFavorite, fav = fals
     setIsFavorite(!isFavorite)
     onClickAddFavorite()
   }
-
+  
   return (
     <div className="card">
       <button
@@ -28,7 +28,7 @@ function Card({ img, name, price, onClickAddCart, onClickAddFavorite, fav = fals
           <span>{price} руб.</span>
         </div>
         <button 
-          className={isAdded ? "card__btn card__btn-add_active" : "card__btn card__btn-add_inactive"}
+          className={itemIsAdedd(id) ? "card__btn card__btn-add_active" : "card__btn card__btn-add_inactive"}
           onClick={handleClickAddCart}></button>
       </div>
     </div>

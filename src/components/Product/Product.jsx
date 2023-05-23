@@ -3,8 +3,7 @@ import Card from '../Card/Card';
 import search from '../../images/search.svg';
 import clear from '../../images/close.svg';
 
-function Product({data, handleAddCart, handleAddToFavorite,cartData,added}) {
-
+function Product({data, handleAddCart, handleAddToFavorite,cartData,favoriteData}) {
   const [searchValue, setSearchValue] = React.useState('');
 
   const onSearchInput = (evt) => {
@@ -29,12 +28,13 @@ function Product({data, handleAddCart, handleAddToFavorite,cartData,added}) {
             .map((card) => (
               <Card
                 key={card.id}
+                id={card.id}
                 img={card.img}
                 name={card.name}
                 price={card.price}
                 onClickAddCart={() => handleAddCart(card)}
                 onClickAddFavorite={() => handleAddToFavorite(card)}
-                added = {cartData.some(obj => obj.id === card.id)}
+                fav = {favoriteData.some(obj => obj.id === card.id)}
               />
             ))
         }

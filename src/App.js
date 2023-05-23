@@ -1,88 +1,146 @@
-import React from "react";
-import Header from "./components/Header/Header";
-import Cart from "../src/components/Cart/Cart";
-import { Routes, Route } from "react-router-dom";
-import Favorites from "./components/Favorites/Favorites";
-import Product from "./components/Product/Product"
+import React from 'react';
+import Header from './components/Header/Header';
+import Cart from '../src/components/Cart/Cart';
+import { Routes, Route } from 'react-router-dom';
+import Favorites from './components/Favorites/Favorites';
+import Product from './components/Product/Product';
+import Profile  from './components/Profile/Profile';
+
+export const AppContext = React.createContext({});
 
 function App() {
-  const [cartOpen, setCartOpen] = React.useState(false)
+  const [cartOpen, setCartOpen] = React.useState(false);
   const [data, setData] = React.useState([]);
   const [cartData, setCartCata] = React.useState([]);
   const [favoriteData, setFavoriteData] = React.useState([]);
+  const [order,setOrder] = React.useState([]);
 
-  React.useEffect( () => {
-    fetch('https://642fd980b289b1dec4bb7260.mockapi.io/market/cards')
-      .then( res => res.json())
-      .then( json => setData(json))
-      .catch( err => console.log(err));
-      fetch('https://642fd980b289b1dec4bb7260.mockapi.io/market/cart')
-      .then( res => res.json())
-      .then( json => setCartCata(json))
-      .catch( err => console.log(err))
-  },[])
-
-
+  React.useEffect(() => {
+    fetch("http://localhost:8080/api/cards")
+      .then((res) => res.json())
+      .then((json) => setData(json))
+      .catch((err) => console.log(err));
+    fetch("http://localhost:8080/api/cards/cart")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json !== null) {
+          setCartCata(json);
+        }
+      })
+      .catch((err) => console.log(err));
+    fetch("http://localhost:8080/api/cards/favorite")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json !== null) {
+          setFavoriteData(json);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleAddCart = (card) => {
-    if (cartData.find(item => item.id === card.id)) {
-      handleDeletItemCart(card.id)
-    }
-    else {
-      fetch('https://642fd980b289b1dec4bb7260.mockapi.io/market/cart', {
-        method:'POST',
+    if (cartData.find((item) => item.id === card.id)) {
+      handleDeletItemCart(card.id);
+    } else {
+      fetch("http://localhost:8080/api/cards/cart", {
+        method: "POST",
         headers: {
-          'Content-type': 'application/json; charset=UTF-8',
+          "Content-type": "application/json",
         },
-        body: JSON.stringify(card)
-      })
-        setCartCata([...cartData,card]) 
+        body: JSON.stringify(card),
+      });
+      setCartCata([...cartData, card]);
     }
-  }
+  };
 
-  const handleDeletItemCart = (id) =>{
-    fetch(`https://642fd980b289b1dec4bb7260.mockapi.io/market/cart/${id}`, {
-      method:'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      // body: JSON.stringify(card)
-    })
-    setCartCata((prev) => prev.filter(item => item.id !== id)) 
-  }
+  const handleDeletItemCart = (id) => {
+    fetch(`http://localhost:8080/api/cards/cart/${id}`, {
+      method: "DELETE",
+    });
+    setCartCata((prev) => prev.filter((item) => item.id !== id));
+  };
 
-  const handleDeleteFavorite = (card) => {
-
-  }
+  const handleDeleteFavorite = (id) => {
+    fetch(`http://localhost:8080/api/cards/favorite/${id}`, {
+      method: "DELETE",
+    });
+    setFavoriteData((prev) => prev.filter((item) => item.id !== id));
+  };
 
   const handleAddToFavorite = (card) => {
-    if (favoriteData.find(item => item.id === card.id )){
-      console.log('lox')
+    if (favoriteData.find((item) => item.id === card.id)) {
+      handleDeleteFavorite(card.id);
+    } else {
+      fetch("http://localhost:8080/api/cards/favorite", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(card),
+      });
+      setFavoriteData([...favoriteData, card]);
     }
-    else {
-      setFavoriteData([...favoriteData,card])
-    }
-    
+  };
+
+  const itemIsAdedd = (id) => {
+    return cartData.some(obj => obj.id === id)
+  }
+
+  const handleOrder = (card) => {
+    setOrder(card)
+    setCartCata([])
   }
 
   return (
-    <div className="wrapper">
-    {cartOpen  && <Cart cartData={cartData} onClickCloseCart={()=> setCartOpen(false)} onDeletItemCart={handleDeletItemCart}/>}
-    <Header onClickOpenCart={()=> setCartOpen(true)}/>
-    <main className="main">
-    <Routes>
-      <Route path="/" element={<Product 
-        data={data}
-        handleAddCart={handleAddCart}
-        handleAddToFavorite={handleAddToFavorite}
-        cartData={cartData}
-      />}> </Route>
-      <Route path="favorites" element={<Favorites favoriteData={favoriteData}  handleAddCart={handleAddCart} handleAddToFavorite={handleAddToFavorite}/>}> </Route>
-      </Routes>
-    </main>
+    <AppContext.Provider value={{data, cartData, favoriteData,itemIsAdedd}}>
+          <div className="wrapper">
+      {cartOpen && (
+        <Cart
+          cartData={cartData}
+          onClickCloseCart={() => setCartOpen(false)}
+          onDeletItemCart={handleDeletItemCart}
+          handleOrder={handleOrder}
+        />
+      )}
+      <Header onClickOpenCart={() => setCartOpen(true)} />
+      <main className="main">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Product
+                data={data}
+                handleAddCart={handleAddCart}
+                handleAddToFavorite={handleAddToFavorite}
+                cartData={cartData}
+                favoriteData={favoriteData}
+              />
+            }
+          >
+          </Route>
+          <Route
+            path="favorites"
+            element={
+              <Favorites
+                favoriteData={favoriteData}
+                cartData={cartData}
+                handleAddCart={handleAddCart}
+                handleAddToFavorite={handleAddToFavorite}
+              />
+            }
+          >
+          </Route>
+          <Route
+            path="orders"
+            element={
+              <Profile/>
+            }>
+          </Route>
+        </Routes>
+      </main>
     </div>
+    </AppContext.Provider>
   );
 }
 
 export default App;
-

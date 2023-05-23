@@ -1,7 +1,7 @@
 import './Cart.css';
 import cartEmpty from '../../images/cartEmpty.png';
 
-function Cart({ cartData, onClickCloseCart,onDeletItemCart }) {
+function Cart({ cartData, onClickCloseCart,onDeletItemCart,handleOrder }) {
   return (
     <div className="overlay">
       <div className="cart">
@@ -38,7 +38,7 @@ function Cart({ cartData, onClickCloseCart,onDeletItemCart }) {
             <span>22500 руб.</span>
           </li>
         </ul>
-        <button className="cart__order-btn">Оформить заказ</button>
+        <button className="cart__order-btn" onClick={() =>handleOrder(cartData)}>Оформить заказ</button>
           </>
         ) : 
         (
