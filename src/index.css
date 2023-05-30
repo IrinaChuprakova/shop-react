@@ -49,6 +49,14 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 40px;
+}
+
+.search__header{
+  max-width: 700px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .search__container {
@@ -91,3 +99,57 @@ h1 {
 .top-20 {
   margin-top: 20px;
 }
+
+.btn{
+  width: 245px;
+  height: 55px;
+  background-color: var(--dark-blue-color);
+  border-radius: 50px;
+  border: none;
+  color: var(--white-color);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty__description {
+  font-size: 20px;
+  margin: 30px 0 0 0;
+}
+
+.empty__btn {
+  margin-top: 30px;
+}
+
+.slider{
+position: relative;
+}
+.slider__image{
+  width: 100%;
+  height: 300px;
+  border-radius: 20px;
+}
+.slider__group-btn{
+  position: absolute;
+  top:50%;
+  left: 2.5%;
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+}
+.slider__btn{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: var(--white-color);
+  border: none;
+  font-size: 25px;
+  font-weight: 500;
+  text-align: center;
+}
+

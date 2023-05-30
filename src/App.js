@@ -36,6 +36,14 @@ function App() {
         }
       })
       .catch((err) => console.log(err));
+      fetch("http://localhost:8080/api/cards/order")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json !== null) {
+          setOrder(json);
+        }
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const handleAddCart = (card) => {
@@ -86,9 +94,14 @@ function App() {
     return cartData.some(obj => obj.id === id)
   }
 
-  const handleOrder = (card) => {
-    setOrder(card)
-    setCartCata([])
+  const handleOrder = (cartData) => {
+    fetch("http://localhost:8080/api/cards/order", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(cartData),
+    });
   }
 
   return (

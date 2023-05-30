@@ -2,6 +2,9 @@ import './Cart.css';
 import cartEmpty from '../../images/cartEmpty.png';
 
 function Cart({ cartData, onClickCloseCart,onDeletItemCart,handleOrder }) {
+  const delivery = 1000
+  const totalprice = cartData.reduce((sum,obj) => obj.price + sum,0) + delivery
+  
   return (
     <div className="overlay">
       <div className="cart">
@@ -30,23 +33,23 @@ function Cart({ cartData, onClickCloseCart,onDeletItemCart,handleOrder }) {
           <li className="d-flex">
             <span>Доставка:</span>
             <div className="line"></div>
-            <span>500 руб.</span>
+            <span>{delivery} руб.</span>
           </li>
           <li className="d-flex">
             <span>Итого:</span>
             <div className="line"></div>
-            <span>22500 руб.</span>
+            <span>{totalprice}</span>
           </li>
         </ul>
         <button className="cart__order-btn" onClick={() =>handleOrder(cartData)}>Оформить заказ</button>
           </>
         ) : 
         (
-          <div className="cartEmpty">
-          <img src={cartEmpty} alt="Корзина пуста" className="cartEmpty__img"/>
-          <h3 className="cartEmpty__header">Корзина пуста</h3>
-          <p className="cartEmpty__description">Добавьте хотя бы одну сумку, чтобы сделать заказ.</p>
-          <button onClick={onClickCloseCart} className="cartEmpty__btn"> &#8701; Вернуться назад </button>
+          <div className="cart-empty">
+          <img src={cartEmpty} alt="Корзина пуста" className="cart-empty__img"/>
+          <h3 className="cart-empty__header">Корзина пуста</h3>
+          <p className="cart-empty__description">Добавьте хотя бы одну сумку, чтобы сделать заказ.</p>
+          <button onClick={onClickCloseCart} className="cart-empty__btn btn"> &#8701; Вернуться назад </button>
           </div>
         )
       }
