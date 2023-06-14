@@ -1,32 +1,38 @@
 import React from "react";
 import Card from "../Card/Card";
+import Info from "../Info/Info";
 
-function Profile({ favoriteData, handleAddCart,handleAddToFavorite}) {
+function Profile({ order }) {
   return (
-    <h1>Мои заказы</h1>
-    // {
-    //   uslovie ? (
-    //     <div className="cards">
-    //     {favoriteData.map((favoriteItem) => (
-    //       <Card
-    //         key={favoriteItem.id}
-    //         img={favoriteItem.img}
-    //         name={favoriteItem.name}
-    //         price={favoriteItem.price}
-    //         onClickAddCart={() => handleAddCart(favoriteItem)}
-    //         onClickAddFavorite={() => handleAddToFavorite(favoriteItem)}
-    //         fav={true}
-    //       />
-    //     ))}
-    //   </div>
-    //   ) :(
-    //     <div className="empty">
-    //     <p className="empty__description">Вы ничего не добавляли в закладки</p>
-    //     <button className="empty__btn btn" onClick={()=> navigate(-1)}>Назад</button>
-    //     </div>
-    //   )
-    // }
-    
+    <>
+      <h1>Мои заказы</h1>
+
+      {order.length > 0 ? (
+        <div className="cards">
+          {order.map((orderitem) => (
+            <>
+              <p>{orderitem.created_at}</p>
+              {orderitem.cards.map((item) => (
+                <Card
+                  key={orderitem.cards.id}
+                  img={item.img}
+                  name={item.name}
+                  price={item.price}
+                  // onClickAddCart={() => handleAddCart(favoriteItem)}
+                  // onClickAddFavorite={() => handleAddToFavorite(favoriteItem)}
+                  fav={true}
+                />
+              ))}
+            </>
+          ))}
+        </div>
+      ) : (
+        <Info
+          // infoImg={infoImg}
+          description={"Вы не делали никаких заказов"}
+        />
+      )}
+    </>
   );
 }
 export default Profile;

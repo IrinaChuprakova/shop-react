@@ -26,9 +26,7 @@ function Favorites({ favoriteData, handleAddCart,handleAddToFavorite}) {
           infoImg={infoImg}
           description={'Вы ничего не добавляли в закладки'}
         />
-
       )}
-      
     </>
   );
 }

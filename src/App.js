@@ -36,15 +36,13 @@ function App() {
         }
       })
       .catch((err) => console.log(err));
-      fetch("http://localhost:8080/api/cards/order")
+    fetch("http://localhost:8080/api/cards/order")
       .then((res) => res.json())
-      .then((json) => {
-        if (json !== null) {
-          setOrder(json);
-        }
-      })
+      .then((json) => {setOrder(json);})
       .catch((err) => console.log(err));
   }, []);
+
+  console.log(order);
 
   const handleAddCart = (card) => {
     if (cartData.find((item) => item.id === card.id)) {
@@ -95,16 +93,23 @@ function App() {
   }
 
   const handleOrder = (cartData) => {
-    cartData.map( (item) => (
-      fetch("http://localhost:8080/api/cards/order", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(item),
-      })
-    ))
-  }
+    fetch("http://localhost:8080/api/cards/order", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(cartData)
+   })}
+   console.log(cartData)
+   // cartData.map( (item) => (
+    //   fetch("http://localhost:8080/api/cards/order", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-type": "application/json",
+    //     },
+    //     body: JSON.stringify(item),
+    //   })
+    // ))
 
   return (
     <AppContext.Provider value={{data, cartData, favoriteData,itemIsAdedd}}>
@@ -148,7 +153,9 @@ function App() {
           <Route
             path="orders"
             element={
-              <Profile/>
+              <Profile
+              order={order}
+              />
             }>
           </Route>
         </Routes>
