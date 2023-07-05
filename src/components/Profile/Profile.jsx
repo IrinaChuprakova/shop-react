@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "../Card/Card";
 import Info from "../Info/Info";
+import infoImg from "../../images/ordersEmpty.png";
 
 function Profile({ order }) {
   return (
@@ -8,27 +8,30 @@ function Profile({ order }) {
       <h1>Мои заказы</h1>
 
       {order.length > 0 ? (
-        <div className="cards">
+        <>
           {order.map((orderitem) => (
-            <>
-              <p>{orderitem.created_at}</p>
+            <div className="order">
+              <p className="order__date">{orderitem.created_at}</p>
+              <div className="cards">
               {orderitem.cards.map((item) => (
-                <Card
-                  key={orderitem.cards.id}
-                  img={item.img}
-                  name={item.name}
-                  price={item.price}
-                  // onClickAddCart={() => handleAddCart(favoriteItem)}
-                  // onClickAddFavorite={() => handleAddToFavorite(favoriteItem)}
-                  fav={true}
-                />
+                <div className="card">
+                  <img className="card__img" src={item.img} alt="Изображение сумки" />
+                  <p className="card__name">{item.name}</p>
+                  <div className="card__box">
+                    <div className="card__container">
+                      <span>Цена:</span>
+                      <span>{item.price} руб.</span>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </>
+              </div>
+             </div> 
           ))}
-        </div>
+        </>
       ) : (
         <Info
-          // infoImg={infoImg}
+          infoImg={infoImg}
           description={"Вы не делали никаких заказов"}
         />
       )}
@@ -36,3 +39,4 @@ function Profile({ order }) {
   );
 }
 export default Profile;
+

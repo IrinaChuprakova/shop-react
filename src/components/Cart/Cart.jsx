@@ -46,11 +46,13 @@ function Cart({ cartData, onClickCloseCart,onDeletItemCart,handleOrder }) {
           </>
         ) : 
         (
+
           <Info
           infoHeader={'Корзина пуста'}
           infoImg={cartEmpty}
           description={'Добавьте хотя бы одну сумку, чтобы сделать заказ.'}
-        />
+          onClickBack={onClickCloseCart}
+        /> 
         )
       }
       </div>
@@ -58,10 +60,3 @@ function Cart({ cartData, onClickCloseCart,onDeletItemCart,handleOrder }) {
   );
 }
 export default Cart;
-
-          /* <div className="cart-empty">
-          <img src={cartEmpty} alt="Корзина пуста" className="cart-empty__img"/>
-          <h3 className="cart-empty__header">Корзина пуста</h3>
-          <p className="cart-empty__description">Добавьте хотя бы одну сумку, чтобы сделать заказ.</p>
-          <button onClick={onClickCloseCart} className="cart-empty__btn btn"> &#8701; Вернуться назад </button>
-          </div> */

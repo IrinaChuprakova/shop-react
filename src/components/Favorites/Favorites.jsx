@@ -6,7 +6,7 @@ import infoImg from '../../images/favoritesEmpty.png';
 function Favorites({ favoriteData, handleAddCart,handleAddToFavorite}) {
   return (
     <>
-      <h1>Мои закладки</h1>
+      <h1>Мои закладки{}</h1>
       {favoriteData.length>0 ? (
         <div className="cards">
         {favoriteData.map((favoriteItem) => (

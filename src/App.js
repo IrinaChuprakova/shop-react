@@ -11,7 +11,7 @@ export const AppContext = React.createContext({});
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
   const [data, setData] = React.useState([]);
-  const [cartData, setCartCata] = React.useState([]);
+  const [cartData, setCartData] = React.useState([]);
   const [favoriteData, setFavoriteData] = React.useState([]);
   const [order,setOrder] = React.useState([]);
 
@@ -24,7 +24,7 @@ function App() {
       .then((res) => res.json())
       .then((json) => {
         if (json !== null) {
-          setCartCata(json);
+          setCartData(json);
         }
       })
       .catch((err) => console.log(err));
@@ -38,11 +38,13 @@ function App() {
       .catch((err) => console.log(err));
     fetch("http://localhost:8080/api/cards/order")
       .then((res) => res.json())
-      .then((json) => {setOrder(json);})
+      .then((json) => {
+        if (json !== null) {
+          setOrder(json);
+        }})
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(order);
 
   const handleAddCart = (card) => {
     if (cartData.find((item) => item.id === card.id)) {
@@ -55,7 +57,7 @@ function App() {
         },
         body: JSON.stringify(card),
       });
-      setCartCata([...cartData, card]);
+      setCartData([...cartData, card]);
     }
   };
 
@@ -63,7 +65,7 @@ function App() {
     fetch(`http://localhost:8080/api/cards/cart/${id}`, {
       method: "DELETE",
     });
-    setCartCata((prev) => prev.filter((item) => item.id !== id));
+    setCartData((prev) => prev.filter((item) => item.id !== id));
   };
 
   const handleDeleteFavorite = (id) => {
@@ -98,18 +100,10 @@ function App() {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(cartData)
-   })}
-   console.log(cartData)
-   // cartData.map( (item) => (
-    //   fetch("http://localhost:8080/api/cards/order", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-type": "application/json",
-    //     },
-    //     body: JSON.stringify(item),
-    //   })
-    // ))
+      body: JSON.stringify({cards: cartData})
+   })
+
+  }
 
   return (
     <AppContext.Provider value={{data, cartData, favoriteData,itemIsAdedd}}>
